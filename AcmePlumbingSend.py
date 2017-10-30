@@ -6,8 +6,11 @@ class AcmePlumbingSend(MouseCommand):
     """ Sends the current selected text to the plumbing """
     def run(self, edit):
         file_name = self.view.file_name()
+        sel = self.selection_at_cursor()
         message = {
-            "data": self.view.substr(self.selection_at_cursor()),
+            "selection_start": sel.a,
+            "selection_end": sel.b,
+            "data": self.view.substr(sel),
             "cwd": os.path.dirname(file_name) if file_name else None,
             "src": self.view.id(),
         }
